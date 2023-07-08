@@ -1,4 +1,4 @@
-setwd("D:/R-Workshop")
+setwd("D:/GRN")
 
 
 expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_gtex.rds")
@@ -18,7 +18,7 @@ CDKN1A <- expr[17656,]
 # double check the row name
 row.names(expr)[17656]
 
-TF <- c("TP53","c","TFAP4","E2F1","E2F3","SP1","SP3","E2A","TFAP2","STAT1")
+TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
 # row_index <- which(row.names(expr) == TF)
 print(row_index)
 

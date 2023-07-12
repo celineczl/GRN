@@ -78,7 +78,7 @@ for (i in TF){
 }
 
 # Generate model summary and capture output
-model_summary <- capture.output(summary(uni_regr_CDKN1A_TF[[i]]))
+# model_summary <- capture.output(summary(uni_regr_CDKN1A_TF[[i]]))
 
 # Print model summary within the PDF
-cat(model_summary, sep = "\n")
+# cat(model_summary, sep = "\n")

@@ -15,13 +15,21 @@ library(glmnet,lib="D:/R-4.1.2/library")
 ## ======== LASSO variable selection model ====================
 ## https://glmnet.stanford.edu/articles/glmnet.html#quick-start
 
+# The default model used in the package is the Guassian linear model or “least squares”
 # input matrix x is TF expression data
 x <- t(expr[TF,])
 # response variable is the target gene expression
 y <- expr["CDKN1A",]
 
+# data distribution
+hist(expr)
+hist(expr[TF,])
+
 # Fit Lasso model
 lasso_model <- glmnet(x, y, alpha = 1)
+# default, Gaussian linear regression
+# alpha = 1, lasso
+# alpha = 0, ridge
 
 # Perform cross-validation
 cv_model <- cv.glmnet(x, y, alpha = 1)
@@ -30,7 +38,26 @@ plot(lasso_model)
 print(lasso_model)
 plot(cv_model)
 
+# min lambda, max model complexity
 cv_model$lambda.min
 
 coef(cv_model, s = "lambda.min")
 predict(cv_model, newx = x[1:5,], s = "lambda.min")
+
+expr["CUX",]
+
+coef(cv_model, s = "lambda.1se")
+
+fit <- glmnet(x, y)
+# the fitted values for the observations at 𝜆=0.05
+predict(fit, newx = x, type = "response", s = 0.05)
+
+# log lambda
+plot(fit, xvar = "lambda", label = TRUE)
+# fraction deviance explained
+plot(fit, xvar = "dev", label = TRUE)
+
+## ============== lasso inferetial model ====================
+# choose 
+  
+

@@ -11,3 +11,19 @@ summary(model)
 TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
 
 # to be updated with new TFs...
+
+# testing data is stored in x_test and y_test variables
+TF_test <- c("STAT3","STAT5","CEBPA","CEBPB","VDR")
+x_test <- 
+
+predictions <- predict(model, newdata = TF_test)
+
+plot(y_test, predictions, xlab = "Actual Values", ylab = "Predicted Values", main = "Predicted vs Actual")
+
+nrmse <- sqrt(mean((predictions - y_test)^2)) / (max(y_test) - min(y_test))
+
+expr["STAT3",]
+expr["STAT5",]
+expr["CEBPA",]
+expr["CEBPB",]
+expr["VDR",]

@@ -3,12 +3,16 @@ expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_
 head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 expr <- expr_tissue_median_gtex$data
-TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
+# TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
 
+
+# https://cran.r-project.org/web/packages/mombf/mombf.pdf
+# https://cran.r-project.org/web/packages/mombf/vignettes/mombf.pdf
+# https://github.com/davidrusi/mombf
 ## ======== mombf variable selection model ====================
 
 ## sessionInfo()
-# install.packages("rlang")
+install.packages("rlang")
 library(rlang) # rlang_1.1.1
 
 # install.packages("mombf",lib="D:/R-4.1.2/library")

@@ -61,3 +61,7 @@ plot(fit, xvar = "dev", label = TRUE)
 # choose 
   
 
+
+# TRUNCATED normal distribution, truncated at 0
+
+

@@ -1,16 +1,14 @@
 setwd("D:/GRN")
 
-
 expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_gtex.rds")
 head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 expr <- expr_tissue_median_gtex$data
+TF <- read.csv("D:/GRN/TF.csv", header = FALSE)
 
-row.names(expr)
-
+## ============ First method: call row index =================================
 # Get the row index where the row name matches the search word
 row_index <- which(row.names(expr) == "CDKN1A")
-
 # Print the row index
 print(row_index)
 # 17656
@@ -18,7 +16,6 @@ CDKN1A <- expr[17656,]
 # double check the row name
 row.names(expr)[17656]
 
-TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
 # row_index <- which(row.names(expr) == TF)
 print(row_index)
 
@@ -31,7 +28,7 @@ summary(model)
 
 row_index <- which(row.names(expr) == "AP1")
 print(row_index)
-# no AP1
+# no AP1, AP1 is a complex
 
 row_index <- which(row.names(expr) == "TFAP2A")
 print(row_index) #16838
@@ -46,27 +43,26 @@ print(row_index) #49604
 model <- lm(expr[17656,] ~ expr[49604,])
 summary(model)
 # smaller p-value than TFAP2A
-# focus on coeficient but not p-values
-
-# TFAP2 A B C D E
-# TF2P2A and TFAP2C and TFAP2E important to CDKN1A
+# focus on coefficient but not p-values
 
 ## ========== UNIVARIATE REGRESSION ==============
 expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_gtex.rds")
 head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 expr <- expr_tissue_median_gtex$data
-
-TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
+# TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
+TF <- read.csv("D:/GRN/TF.csv", header = FALSE)
 # can directly call row name
 
-uni_regr_CDKN1A_TF = list()
+uni_regr_CDKN1A_TF <- list()
 
 for (i in TF){
   tf_exp <- expr[i,]
   print(as.matrix(tf_exp))
+  # for each TF in the list, perform univariate linear regression
+  # output into pdf
   
-  uni_regr_CDKN1A_TF[[i]] = lm(expr["CDKN1A",] ~ tf_exp)
+  uni_regr_CDKN1A_TF[[i]] <- lm(expr["CDKN1A",] ~ tf_exp)
   summary(uni_regr_CDKN1A_TF[[i]])
   ## [[i]] are used to directly access the value of a specific element within a list
   

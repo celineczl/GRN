@@ -3,7 +3,8 @@ expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_
 head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 expr <- expr_tissue_median_gtex$data
-TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
+# TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
+TF <- as.matrix(read.csv("D:/GRN/TF.csv", header = FALSE))
 
 .libPaths("D:/R-4.1.2/library")
 # .libPaths()
@@ -31,6 +32,9 @@ lasso_model <- glmnet(x, y, alpha = 1)
 # alpha = 1, lasso
 # alpha = 0, ridge
 
+summary(lasso_model)
+coef(lasso_model)
+
 # Perform cross-validation
 cv_model <- cv.glmnet(x, y, alpha = 1)
 
@@ -56,12 +60,5 @@ predict(fit, newx = x, type = "response", s = 0.05)
 plot(fit, xvar = "lambda", label = TRUE)
 # fraction deviance explained
 plot(fit, xvar = "dev", label = TRUE)
-
-## ============== lasso inferetial model ====================
-# choose 
-  
-
-
-# TRUNCATED normal distribution, truncated at 0
 
 

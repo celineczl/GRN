@@ -10,23 +10,31 @@ model <- lm(expr["CDKN1A",] ~ expr["TP53",]+expr["TFAP4",]+expr["E2F1",]+expr["E
             +expr["SP3",]+expr["TCF3",]+expr["TFAP2A",]+expr["TFAP2C",]+expr["TFAP2E",]+expr["STAT1",])
 summary(model)
 
-# 11 TFs found in the first week
 # TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
 
 # to be updated with new TFs...
-TF <- read.csv("D:/GRN/TF.csv", header = FALSE)
-model <- lm
+TF <- as.matrix(read.csv("D:/GRN/TF.csv", header = FALSE))
+model <- lm(expr["CDKN1A",] ~ t(expr[TF, ]))
+summary(model)
+
+## == Fit a class I multivariate linear model to infer regulatory effects ====================
+# @param expr           GTEX expression matrix across N samples
+# @param tf.activities  TF activity matrix (N samples by K TFs)
+# @param target         gene name of target
+# @param tf.candidates  gene names of candidate TFs
+
+tf.candidates <- unique(TF_matrix_DORO_cdkn1a$source)
+# check before use: tf.candidates %in% rownames(expr)
+
+mlinear_model_I <- function(expr, tf.candidates, target){
+  fit <- lm(expr[target, ] ~ t(expr[tf.candidates,]));
+  coef(fit)
+}
+# call the mlinear_I function
+mlinear_model_I(expr, tf.candidates, target)
 
 
-
-
-
-
-
-
-
-
-
+## ===================== model testing =============================================
 # testing data is stored in x_test and y_test variables
 TF_test <- c("STAT3","CEBPA","CEBPB","VDR","RARA")
 x_test <- as.data.frame(expr[TF_test,])

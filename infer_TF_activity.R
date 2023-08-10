@@ -1,12 +1,14 @@
-# Infer TF activity based on mean expression of target genes
-setwd("D:/GRN")
+## Infer TF activity based on mean expression of target genes
+## univariate, multivariate linear regression, lasso and mombf
+##================================================================================
 
-# install.packages("io", lib="D:/R-4.1.2/library")
+# install.packages("io")
 library(io)
 
 # input expression data matrix (rownames: gene symbols)
-expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_gtex.rds")
+expr_tissue_median_gtex <- readRDS("data/expr_tissue-median_gtex.rds")
 expr <- expr_tissue_median_gtex$data
+TF <- read.csv("data/TF.csv", header = FALSE)
 
 # input TF-target list of targets
 # TP53
@@ -15,7 +17,7 @@ expr <- expr_tissue_median_gtex$data
 # RUNX1
 #   - ...
 
-tf.targets <- TF_list_DORO_cdkn1a; # 35 TFs and their target list
+tf.targets <- tf_list_dorothea_cdkn1a; # 35 TFs and their target list
 
 # Infer TF activity matrix (all samples by all TFs)
 # target is from the list
@@ -65,6 +67,9 @@ mlinear_model_II(expr, tf.activities, target)
 
 ## == Fit a lasso model to infer regulatory effects ==================================
 
+
+# TODO: install the package again and into the central location
+# restart and rerun the code when finish writing
 lasso_model_II <- function(expr, tf.activities, target){
   library(glmnet,lib="D:/R-4.1.2/library")
     x <- t(tf.activities)
@@ -89,3 +94,10 @@ mombf_model_II <- function(expr, tf.activities, target){
 mombf_model_II(expr, tf.activities, target)
 # Error in modelSelection(..., priorCoef = bic(), priorDelta = modelunifprior(), :
 # There are >1 constant columns in x (e.g. two intercepts)
+
+x1 <- t(tf.activities)
+y1 <- expr[target,]
+
+# debug(function_name)
+# TODO write 
+# don't indent for no reason, only when have a curly bracket

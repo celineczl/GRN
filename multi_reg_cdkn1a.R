@@ -32,27 +32,6 @@ rownames(mlinear_I_coef) <- sub("t\\(expr\\[tf\\.candidates, \\]\\)", "", rownam
 
 saveRDS(mlinear_I_coef,"mlinear_I_coef.rds")
 
-## ================== testing ==============================================
-
-# remove the 152:155
-tf.candidates1 <- setdiff(tf.candidates, c("ZNF263", "ZNF300", "ZNF331", "ZNF76"))
-# tf.candidates1 <- tf.candidates[c(1:151,156)]
-
-fit <- lm(expr[target, ] ~ t(expr[tf.candidates1,]));
-summary(fit)
-
-tf.candidates2 <- tf.candidates[1:50] # GOOD
-tf.candidates3 <- tf.candidates[51:100] # GOOD
-# remove term 152:155
-tf.candidates4 <- tf.candidates[c(101:151,156)] # GOOD
-
-# checked the data matrix, no NA
-expr1 <- expr[tf.candidates[101:156],]
-
-fit <- lm(expr[target, ] ~ t(expr[tf.candidates1,]));
-summary(fit)
-## still NA
-
 ## ===================== model testing =============================================
 ## NOT OUR FOCUS SO FAR
 

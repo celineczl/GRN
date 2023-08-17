@@ -39,10 +39,8 @@ print(lasso_model)
 lasso_I_coef <- coef(lasso_model)
 print(lasso_I_coef)
 
-saveRDS(lasso_I_coef,"lasso_I_coef.rds")
-
 ##============== Perform cross-validation ==========================
-## NOT OUR FOCUS SO FAR
+
 cv_model <- cv.glmnet(x, y, alpha = 1)
 
 plot(cv_model)
@@ -50,7 +48,11 @@ plot(cv_model)
 # min lambda, max model complexity
 cv_model$lambda.min
 
-coef(cv_model, s = "lambda.min")
+lasso_I_coef <- as.matrix(coef(cv_model, s = "lambda.min"))
+
+
+saveRDS(lasso_I_coef, "lasso_I_coef.rds")
+
 predict(cv_model, newx = x[1:5,], s = "lambda.min")
 
 expr["CUX",]

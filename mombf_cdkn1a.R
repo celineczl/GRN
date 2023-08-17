@@ -25,19 +25,17 @@ library(mombf)
 x <- t(expr[tf.candidates,])
 # response variable is the target gene expression
 y <- expr[target,]
-fit <-bestBIC(y ~ x)
-summary(fit) # usual GLM summary
-coef(fit)
 
-mombf_I_coef <- as.matrix(coef(fit)) # MLE under top model
-## TODO: NA coefficient started from HES5
+msfit <- modelSelection(y, x, family="normal", priorCoef=momprior())
+sampl <- rnlp(msfit=msfit)
+beta <- colMeans(sampl)[-ncol(sampl)]
+# remove phi in the last column
 
-# Remove 'x' from each row name
-rownames(mombf_I_coef) <- sub("x", "", rownames(mombf_I_coef))
+hist(sampl[, "GLI2"], breaks=100)
+hist(sampl[, "TP73"], breaks=100)
+
+
+
+mombf_I_coef <- as.matrix(beta)
 
 saveRDS(mombf_I_coef, "mombf_I_coef.rds")
-
-confint(fit) # conf int under top model
-
-selected_models <- fit$topmodel.fit
-# best model selected, no need to perform mombf?

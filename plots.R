@@ -1,4 +1,5 @@
 ## plot tf coefficients on y axis and TF names in the same order on x axis
+## TODO: add line y=0 to the plot
 
 gene_names <- rownames(ulinear_I_coef)
 coefficients <- ulinear_I_coef[, "row"]

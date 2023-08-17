@@ -21,12 +21,11 @@ mlinear_model_I <- function(expr, tf.candidates, target){
 
 mlinear_I_coef <- as.matrix(mlinear_model_I(expr, tf.candidates, target))
 ## from HES1, all coefficients turned to NA
-## possibly reasons:
-## multicollinearity
-## missing values [but no NA in dataset]
-## insufficient variability
-
-# TODO: examine the correlation matrix or calculate the variance inflation factor (VIF) for each predictor
+## explain why: the number of parameters to be estimated is greater than the number of sample tissues.
+## N*1 = N*D D*1, D is greater than N. more unknowns than equations, 
+## only first 53 genes' coefficients and the intercept can be obtained the multivariate model.
+## solutions: regularization/variable selection: lasso and non-local prior
+## lasso: designed to do shrinkage, the variable selection is not accurate
 
 # Remove 't(expr[tf.candidates, ])' from each row name
 rownames(mlinear_I_coef) <- sub("t\\(expr\\[tf\\.candidates, \\]\\)", "", rownames(mlinear_I_coef))

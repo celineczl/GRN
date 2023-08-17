@@ -1,30 +1,28 @@
-setwd("D:/GRN")
-expr_tissue_median_gtex <- readRDS("C:/Users/Celin/Downloads/expr_tissue-median_gtex.rds")
-head(expr_tissue_median_gtex)
-summary(expr_tissue_median_gtex)
-expr <- expr_tissue_median_gtex$data
-# TF <- c("TP53","TFAP4","E2F1","E2F3","SP1","SP3","TCF3","TFAP2A","TFAP2C","TFAP2E","STAT1")
-TF <- as.matrix(read.csv("D:/GRN/TF.csv", header = FALSE))
+## class I lasso model to infer regulatory effect
+## assume TF activity = expression level
 
-.libPaths("D:/R-4.1.2/library")
-# .libPaths()
-# install.packages("glmnet",lib="D:/R-4.1.2/library")
-# need to specify library path everytime, defualt usually not work
-library(glmnet,lib="D:/R-4.1.2/library")
+library(glmnet)
 # glmnet require latest R version 4.3.1 and Rtools for install
 
 ## ======== LASSO variable selection model ====================
 ## https://glmnet.stanford.edu/articles/glmnet.html#quick-start
+# @param expr           GTEX expression matrix across N samples
+# @param target         gene name of target
+# @param tf.candidates  gene names of candidate TFs
+
+expr <- readRDS("expr.rds")
+target <- "CDKN1A"
+tf.candidates <- readRDS("tf.candidates.rds")
 
 # The default model used in the package is the Guassian linear model or “least squares”
 # input matrix x is TF expression data
-x <- t(expr[TF,])
+x <- t(expr[tf.candidates,])
 # response variable is the target gene expression
-y <- expr["CDKN1A",]
+y <- expr[target,]
 
 # data distribution
 hist(expr)
-hist(expr[TF,])
+hist(expr[tf.candidates,])
 
 # Fit Lasso model
 lasso_model <- glmnet(x, y, alpha = 1)
@@ -32,14 +30,21 @@ lasso_model <- glmnet(x, y, alpha = 1)
 # alpha = 1, lasso
 # alpha = 0, ridge
 
-summary(lasso_model)
-coef(lasso_model)
+plot(lasso_model)
 
-# Perform cross-validation
+# summary information for the Lasso model:
+print(lasso_model)
+
+# store lasso coefficients, format: dgCMatrix
+lasso_I_coef <- coef(lasso_model)
+print(lasso_I_coef)
+
+saveRDS(lasso_I_coef,"lasso_I_coef.rds")
+
+##============== Perform cross-validation ==========================
+## NOT OUR FOCUS SO FAR
 cv_model <- cv.glmnet(x, y, alpha = 1)
 
-plot(lasso_model)
-print(lasso_model)
 plot(cv_model)
 
 # min lambda, max model complexity

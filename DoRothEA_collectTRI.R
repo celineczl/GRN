@@ -26,6 +26,7 @@ library(tidyverse) # detach("package:stats") or conflict with tidyverse
 
 
 ##=========================== OmnipathR ===============================================
+## protein-protein interaction database
 # OmnipathR_interaction_res: all the resources in OmnipathR
 OmnipathR_interaction_res <- get_interaction_resources(dataset = NULL) # 142 resources entry
 
@@ -47,8 +48,6 @@ TRI <- collectri(
   strict_evidences = TRUE
 )
 
-TRI_cdkn1a <- 
-
 DORO <- dorothea(
   resources = 'DoRothEA',
   organism = 9606,
@@ -59,8 +58,6 @@ DORO <- dorothea(
   exclude = NULL,
   strict_evidences = TRUE
 )
-
-# data looks different, need more time to figure out, if use OmnipathR
 
 
 ##===================== processed regulons from collectri ==========================================
@@ -201,4 +198,4 @@ TF_matrix_DORO_cdkn1a <- TF_net_DORO_cdkn1a[in_target, ]
 TF_list_DORO_cdkn1a <- lapply(
   split(TF_matrix_DORO_cdkn1a[, 3], TF_matrix_DORO_cdkn1a[, 1]),
   function (d) d$target
-);
+)

@@ -17,8 +17,12 @@ TF <- read.csv("data/TF.csv", header = FALSE)
 dorothea_data <- read.csv("data/Revised_Supplemental_Table_S3.csv", header = TRUE)
 
 # filter out the TF-target interaction ONLY inferred from co-expression
-coexpr_only <- subset(dorothea_data, is_evidence_curateddatabase == FALSE & is_evidence_chipSeq == FALSE & 
-                          is_evidence_TFbindingMotif == FALSE & is_evidence_coexpression == TRUE)
+coexpr_only <- subset(dorothea_data,
+  is_evidence_curateddatabase == FALSE & 
+  is_evidence_chipSeq == FALSE & 
+  is_evidence_TFbindingMotif == FALSE & 
+  is_evidence_coexpression == TRUE
+)
 
 # remove 'coexpr_only' from 'dorothea_data'
 filtered_doro <- anti_join(dorothea_data, coexpr_only)

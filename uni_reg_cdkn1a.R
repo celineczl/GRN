@@ -9,7 +9,7 @@ head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 
 expr <- expr_tissue_median_gtex$data
-qwrite(expr, "expr.rds");
+# qwrite(expr, "expr.rds");
 
 TF <- read.csv("data/TF.csv", header = FALSE)
 
@@ -19,8 +19,9 @@ TF <- read.csv("data/TF.csv", header = FALSE)
 # @param tf.candidates  gene names of candidate TFs
 
 target <- 'CDKN1A'
-tf.candidates <- tf_cdkn1a$TF
-saveRDS(tf.candidates, "tf.candidates.rds")
+# tf.candidates <- tf_cdkn1a$TF
+# saveRDS(tf.candidates, "tf.candidates.rds")
+tf.candidates <- readRDS("tf.candidates.rds")
 
 ulinear_model_I <- function(expr, tf.candidates, target){
   apply(expr[tf.candidates,], MARGIN = 1, function(row) {

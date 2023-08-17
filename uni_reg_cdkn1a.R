@@ -35,9 +35,18 @@ saveRDS(ulinear_I_coef,"ulinear_I_coef.rds")
 ## scatter plot of target expression vs each TF expression
 ## TODO: y-axis label is always "row"
 ulinear_model_plot <- function(expr, tf.candidates, target){
-  apply(expr[tf.candidates,], MARGIN = 1, function(row){
-    plot(expr[target,],row)
-  })
+  for (candidate in tf.candidates) {
+    plot(expr[candidate, ], expr[target, ],
+      xlab = paste0(target, " expression"),
+      ylab = paste0(candidate, " expression")
+    )
+    abline(
+      a = ulinear_I_coef[candidate, 1],
+      b = ulinear_I_coef[candidate, 2]
+    )
+  }
 }
-ulinear_model_plot(expr, tf.candidates, target)
+ulinear_model_plot(expr, tf.candidates[1], target)
+
+
 

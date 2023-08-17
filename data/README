@@ -1,1 +1,10 @@
-document data files...
+Data file documentation
+
+Revised_Supplemental_Table_S3.csv
+# DoRothEA raw data, contains TF-target interaction entries and corresponding evidence type
+
+TF.csv
+# TF names from the literature-curated table.
+
+expr_tissue-median_gtex.rds
+# Median expression of all the genes in GTEX across different tissues

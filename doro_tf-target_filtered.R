@@ -26,7 +26,7 @@ coexpr_only <- subset(dorothea_data,
 
 # remove 'coexpr_only' from 'dorothea_data'
 filtered_doro <- anti_join(dorothea_data, coexpr_only)
-qwrite(filtered_doro, "filtered_doro.rds");
+qwrite(filtered_doro, "data/filtered_doro.rds");
 
 # obtain all the TF-target entries (target = CDKN1A in this case)
 doro_cdkn1a <- subset(filtered_doro, target == "CDKN1A") # 156 obs
@@ -36,6 +36,8 @@ doro_cdkn1a <- subset(filtered_doro, target == "CDKN1A") # 156 obs
 # exclude TF not included in expr
 in_target <- doro_cdkn1a$TF %in% rownames(expr) # 156 obs
 tf_cdkn1a <- doro_cdkn1a[in_target,]
+tf.candidates <- tf_cdkn1a$TF
+saveRDS(tf.candidates, "data/tf.candidates.rds")
 
 # retrieve all the targets of all the TFs of CDKN1A
 tf.matrix <- subset(filtered_doro, TF %in% tf_cdkn1a$TF) # 270731 obs
@@ -45,5 +47,4 @@ tf.matrix_gtex <- subset(tf.matrix, target %in% rownames(expr))
                     
 # split the matrix to a list
 tf.list <- split(tf.matrix_gtex[, 2], tf.matrix_gtex[, 1])
-saveRDS(tf.list, "tf.list.rds")
-
+saveRDS(tf.list, "data/tf.list.rds")

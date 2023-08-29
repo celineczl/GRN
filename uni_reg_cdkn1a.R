@@ -9,9 +9,8 @@ head(expr_tissue_median_gtex)
 summary(expr_tissue_median_gtex)
 
 expr <- expr_tissue_median_gtex$data
-# qwrite(expr, "expr.rds");
 
-TF <- read.csv("data/TF.csv", header = FALSE)
+# TF <- read.csv("data/TF.csv", header = FALSE)
 
 ## == Fit a univariate linear model to infer regulatory effects =====================
 # @param expr           GTEX expression matrix across N samples
@@ -19,9 +18,7 @@ TF <- read.csv("data/TF.csv", header = FALSE)
 # @param tf.candidates  gene names of candidate TFs
 
 target <- 'CDKN1A'
-# tf.candidates <- tf_cdkn1a$TF
-# saveRDS(tf.candidates, "tf.candidates.rds")
-tf.candidates <- readRDS("tf.candidates.rds")
+tf.candidates <- readRDS("data/tf.candidates.rds")
 
 ulinear_model_I <- function(expr, tf.candidates, target){
   apply(expr[tf.candidates,], MARGIN = 1, function(row) {
@@ -30,23 +27,32 @@ ulinear_model_I <- function(expr, tf.candidates, target){
   })
 }
 ulinear_I_coef <- t(ulinear_model_I(expr, tf.candidates, target))
-saveRDS(ulinear_I_coef,"ulinear_I_coef.rds")
+saveRDS(ulinear_I_coef,"results/ulinear_I_coef.rds")
 
-## scatter plot of target expression vs each TF expression
-## TODO: y-axis label is always "row"
-ulinear_model_plot <- function(expr, tf.candidates, target){
+ulinear_model_plot <- function(expr, tf.candidates, target, output_file){
+  
+  # Create a PDF device to save the plots
+  pdf(output_file)
+  
+  # scatter plot of target expression vs each TF expression
   for (candidate in tf.candidates) {
     plot(expr[candidate, ], expr[target, ],
       xlab = paste0(target, " expression"),
       ylab = paste0(candidate, " expression")
     )
+    
+    # add ulinear model line [y = intercept + coefficient * x]
     abline(
       a = ulinear_I_coef[candidate, 1],
       b = ulinear_I_coef[candidate, 2]
     )
   }
+  
+  # Save the current plot to the PDF file
+  dev.off()
 }
-ulinear_model_plot(expr, tf.candidates[1], target)
 
+# Specify the name of the output PDF file
+output_file <- "results/ulinear_output_plots.pdf"
 
-
+ulinear_model_plot(expr, tf.candidates, target, output_file)

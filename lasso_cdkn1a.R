@@ -10,9 +10,10 @@ library(glmnet)
 # @param target         gene name of target
 # @param tf.candidates  gene names of candidate TFs
 
-expr <- readRDS("expr.rds")
+expr_tissue_median_gtex <- readRDS("data/expr_tissue-median_gtex.rds")
+expr <- expr_tissue_median_gtex$data
 target <- "CDKN1A"
-tf.candidates <- readRDS("tf.candidates.rds")
+tf.candidates <- readRDS("data/tf.candidates.rds")
 
 # The default model used in the package is the Guassian linear model or “least squares”
 # input matrix x is TF expression data
@@ -36,13 +37,11 @@ plot(lasso_model)
 print(lasso_model)
 
 # store lasso coefficients, format: dgCMatrix
-lasso_I_coef <- coef(lasso_model)
-print(lasso_I_coef)
+# lasso_I_coef <- coef(lasso_model)
 
 ##============== Perform cross-validation ==========================
-
+## obtain the coefficients at s = "lambda.min"
 cv_model <- cv.glmnet(x, y, alpha = 1)
-
 plot(cv_model)
 
 # min lambda, max model complexity
@@ -50,9 +49,9 @@ cv_model$lambda.min
 
 lasso_I_coef <- as.matrix(coef(cv_model, s = "lambda.min"))
 
+saveRDS(lasso_I_coef, "results/lasso_I_coef.rds")
 
-saveRDS(lasso_I_coef, "lasso_I_coef.rds")
-
+## ==============================================================
 predict(cv_model, newx = x[1:5,], s = "lambda.min")
 
 expr["CUX",]

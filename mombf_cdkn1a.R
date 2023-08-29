@@ -6,9 +6,10 @@
 # @param target         gene name of target
 # @param tf.candidates  gene names of candidate TFs
 
-expr <- readRDS("expr.rds")
+expr_tissue_median_gtex <- readRDS("data/expr_tissue-median_gtex.rds")
+expr <- expr_tissue_median_gtex$data
 target <- "CDKN1A"
-tf.candidates <- readRDS("tf.candidates.rds")
+tf.candidates <- readRDS("data/tf.candidates.rds")
 
 # https://cran.r-project.org/web/packages/mombf/mombf.pdf
 # https://cran.r-project.org/web/packages/mombf/vignettes/mombf.pdf
@@ -31,11 +32,9 @@ sampl <- rnlp(msfit=msfit)
 beta <- colMeans(sampl)[-ncol(sampl)]
 # remove phi in the last column
 
+hist(sampl[, "AR"], breaks=100)
 hist(sampl[, "GLI2"], breaks=100)
 hist(sampl[, "TP73"], breaks=100)
 
-
-
 mombf_I_coef <- as.matrix(beta)
-
-saveRDS(mombf_I_coef, "mombf_I_coef.rds")
+saveRDS(mombf_I_coef, "results/mombf_I_coef.rds")

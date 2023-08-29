@@ -7,8 +7,11 @@ library(io)
 # @param target         gene name of target
 # @param tf.candidates  gene names of candidate TFs
 
-expr <- readRDS("expr.rds")
-tf.candidates <- readRDS("tf.candidates.rds")
+expr_tissue_median_gtex <- readRDS("data/expr_tissue-median_gtex.rds")
+expr <- expr_tissue_median_gtex$data
+
+target <- "CDKN1A"
+tf.candidates <- readRDS("data/tf.candidates.rds")
 # check before use: tf.candidates %in% rownames(expr)
 
 # fit <- lm(expr[target, ] ~ t(expr[tf.candidates,]))
@@ -25,12 +28,12 @@ mlinear_I_coef <- as.matrix(mlinear_model_I(expr, tf.candidates, target))
 ## N*1 = N*D D*1, D is greater than N. more unknowns than equations, 
 ## only first 53 genes' coefficients and the intercept can be obtained the multivariate model.
 ## solutions: regularization/variable selection: lasso and non-local prior
-## lasso: designed to do shrinkage, the variable selection is not accurate
+## lasso: designed to do shrinkage, the variable selection function is not accurate
 
 # Remove 't(expr[tf.candidates, ])' from each row name
 rownames(mlinear_I_coef) <- sub("t\\(expr\\[tf\\.candidates, \\]\\)", "", rownames(mlinear_I_coef))
 
-saveRDS(mlinear_I_coef,"mlinear_I_coef.rds")
+saveRDS(mlinear_I_coef,"results/mlinear_I_coef.rds")
 
 ## ===================== model testing =============================================
 ## NOT OUR FOCUS SO FAR

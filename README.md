@@ -1,5 +1,11 @@
 # Gene Regulatory Network Inference
 
+## Project Objectives
+To develop and validate a computational method for inferring gene regulatory networks from genomic data using a non-local prior Bayesian model as a foundation for high-dimensional variable selection. Other statistical models and variable selection methods (lasso and mombf) are tested and compared.
+
+## Set-up
+### Github
+`git clone `
 Class 1: assume TF expression = TF activity
 * So far, only focus on CDKN1A and its TFs
 * testing method: 20 TFs for training, 10 TFs for testing

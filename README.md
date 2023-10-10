@@ -28,17 +28,16 @@ doro_tf-target_filtered.R
 ### Class 1: assume TF expression = TF activity
 
 Model 0 - univariate linear model
-
 `uni_reg_cdkn1a.R`
 
 Model 1 - multivariate linear model
-'multi_reg_cdkn1a.R'
+`multi_reg_cdkn1a.R`
 
 Model 2 - multivariate lasso model (glmnet)
-'lasso_cdkn1a.R'
+`lasso_cdkn1a.R`
 
 Model 3 - multivariate non-local prior model (mombf)
-'mombf_cdkn1a.R'
+`mombf_cdkn1a.R`
 
 ‌Class 2: infer TF activity from target genes' expression
 * mean expression of target genes (DoRothEA) as activity of TF [no normalization performed]

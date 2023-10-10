@@ -1,4 +1,4 @@
-# GRN
+# Gene Regulatory Network Inference
 
 Class 1: assume TF expression = TF activity
 * So far, only focus on CDKN1A and its TFs

@@ -99,6 +99,12 @@ qwrite(mlinear_II_coef, "results/mlinear_II_coef.rds");
 ## If didn't use tf.activities_filtered [remove the 3 rows], coef will be NA
 ## CXXC1 appear first, EBF3 activity exactly the same as CXXC1 => co-linearity
 
+mlinear_II_summary <- function(expr, tf.activities, target){
+  fit <- lm(expr[target, ] ~ t(tf.activities));
+  summary(fit)
+}
+mlinear_II_summary(expr, tf.activities, target)
+
 ## == Fit a lasso model to infer regulatory effects ==================================
 
 lasso_model_II <- function(expr, tf.activities, target){

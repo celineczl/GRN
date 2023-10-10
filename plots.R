@@ -52,3 +52,25 @@ model_coef_plot(coef,title)
 coef <- mombf_II_coef[-1,1]
 title <- "Class II mombf model"
 model_coef_plot(coef,title)
+
+plot(rowMeans(expr[tf.candidates, ]),rowMeans(tf.activities_matrix),
+     xlab = "TF expression", ylab = "TF activities", 
+     xlim = c(0, max(rowMeans(expr[tf.candidates, ]))),
+     ylim = c(0, max(rowMeans(expr[tf.candidates, ]))),
+     cex = 0.8)
+abline(a=0, b=1, col = "red")
+
+qqplot(rowMeans(expr[tf.candidates, ]),rowMeans(tf.activities_matrix),
+       xlab = "TF expression", ylab = "TF activities")
+
+library(io)
+qdraw(
+  {
+    plot(rowMeans(expr[tf.candidates, ]),rowMeans(tf.activities_matrix),
+         xlab = "TF expression", ylab = "TF activities", 
+         xlim = c(0, max(rowMeans(expr[tf.candidates, ]))),
+         ylim = c(0, max(rowMeans(expr[tf.candidates, ]))))
+  },
+  width = 3, height = 3, res = 1000,
+  file = "expr-activity.jpg"
+)

@@ -5,23 +5,37 @@ To develop and validate a computational method for inferring gene regulatory net
 
 ## Set-up
 ### Github
-`git clone `
-Class 1: assume TF expression = TF activity
-* So far, only focus on CDKN1A and its TFs
-* testing method: 20 TFs for training, 10 TFs for testing
-* calculate normalized root mean squared error (NRMSE) for evaluation
+`git clone git@github.com:Celine-ZL-Chen/GRN.git`
+### R Packages
+* io: read from, write to, plot to in an unified manner
+* ggplot2
+* dplyr
+* to be completed
 
-model 0 - univariate linear model
-* uni_reg_cdkn1a.R
+## Databases
+1. GTEx
+2. CGTA
+3. DoRothEA
+4. to be completed
 
-model 1 - multivariate linear model
-* multi_reg_cdkn1a.R
+## Data Preprocessing
+GTEx ...
+doro_tf-target_filtered.R
 
-model 2 - multivariate lasso model (glmnet)
-* lasso_cdkn1a.R
+## Model Description
+### Class 1: assume TF expression = TF activity
 
-model 3 - multivariate non-local prior model (mombf)
-* mombf_cdkn1a.R
+Model 0 - univariate linear model
+'uni_reg_cdkn1a.R'
+
+Model 1 - multivariate linear model
+'multi_reg_cdkn1a.R'
+
+Model 2 - multivariate lasso model (glmnet)
+'lasso_cdkn1a.R'
+
+Model 3 - multivariate non-local prior model (mombf)
+'mombf_cdkn1a.R'
 
 ‌Class 2: infer TF activity from target genes' expression
 * mean expression of target genes (DoRothEA) as activity of TF [no normalization performed]

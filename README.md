@@ -26,7 +26,7 @@ doro_tf-target_filtered.R
 ### Class 1: assume TF expression = TF activity
 
 Model 0 - univariate linear model
-'uni_reg_cdkn1a.R'
+`uni_reg_cdkn1a.R`
 
 Model 1 - multivariate linear model
 'multi_reg_cdkn1a.R'

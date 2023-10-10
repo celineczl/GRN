@@ -7,8 +7,10 @@ To develop and validate a computational method for inferring gene regulatory net
 ### Github
 `git clone git@github.com:Celine-ZL-Chen/GRN.git`
 ### R Packages
-* io: read from, write to, plot to in an unified manner
+* io: read from, write to, plot to in a unified manner
 * ggplot2
+* glmnet
+* mombf
 * dplyr
 * to be completed
 
@@ -26,6 +28,7 @@ doro_tf-target_filtered.R
 ### Class 1: assume TF expression = TF activity
 
 Model 0 - univariate linear model
+
 `uni_reg_cdkn1a.R`
 
 Model 1 - multivariate linear model

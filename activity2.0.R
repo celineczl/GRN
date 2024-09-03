@@ -4,6 +4,8 @@
 
 # install.packages("io")
 library(io)
+library(sparseMatrixStats)
+library(mombf)
 
 # input TF-target list of targets
 # TP53
@@ -13,6 +15,8 @@ library(io)
 #   - ...
 
 tf.targets <- readRDS("data/tf.list.rds"); # 156 TFs and their target list
+expr_tissue_median_gtex <- readRDS("data/expr_tissue-median_gtex.rds")
+expr <- expr_tissue_median_gtex$data
 
 # Infer TF activity matrix (all samples by all TFs)
 # target is from the list
@@ -27,7 +31,7 @@ tf.activity_list <- lapply(tf.targets,
 )
 # convert list of TF-target_mean to matrix
 tf.activities_matrix <- do.call(rbind, tf.activity_list)
-saveRDS(tf.activities_matrix, "data/tf.activities_matrix.rds")
+# saveRDS(tf.activities_matrix, "data/tf.activities_matrix.rds")
 
 ## need to remove three TFs with only target "CDKN1A"
 # identify all rows that have exactly same expression as CDKN1A
@@ -37,12 +41,13 @@ tf_cdkn1a_only <- which(apply(tf.activities_matrix, 1, function(row) all(row == 
 tf.activities_filtered <- tf.activities_matrix[-tf_cdkn1a_only,]
 
 ## get the same result, strings of target names
+tf.list <- readRDS("data/tf.list.rds")
 unlist(tf.list[["DMAP1"]])
 tf.list$AR
 
 ## test the calculation of activities
 target_name <- unlist(tf.list[["DMAP1"]])
-colMeans(as.matrix(expr[target_name, ])) == tf.activities["DMAP1",]
+colMeans(as.matrix(expr[target_name, ])) == tf.activities_filtered["DMAP1",]
 
 ## another method to solve colMean() bug =======================================
 ## add if else loop
